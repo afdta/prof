@@ -1,6 +1,7 @@
 library("metromonitor")
 #freight profiles use old codes? see Los Angeles, Poughkeepsie
 metros <- metropops()
+metros$short <- nameshort(metros$CBSA_Title, type="Met")
 
 top <- c(
   '<!DOCTYPE html>',
@@ -17,18 +18,17 @@ top <- c(
   )
 
 bot <- c("</body></html>")
-style <- 'style="float:left;width:31%;margin:8px 0px 0px 2%;font-size:13px" '
+#style <- 'style="float:left;width:31%;margin:8px 0px 0px 2%;font-size:13px" '
 
-lines <- c('<p style="clear:both;">LINK DUMP OPTION</p>')
-for(i in 1:nrow(metros)){
-  lines <- c(lines, paste0('<p ', style,'><a href="./profiles/', metros[i,"CBSA_Code"], '.pdf">', metros[i,"CBSA_Title"], '</a></p>') )
-}
-
-lines <- c(lines, '<p style="margin-top:25px;clear:both;float:left;">SELECT MENU OPTION</p>')
+#lines <- c('<p style="clear:both;">LINK DUMP OPTION</p>')
+#for(i in 1:nrow(metros)){
+#  lines <- c(lines, paste0('<p ', style,'><a href="./profiles/', metros[i,"CBSA_Code"], '.pdf">', metros[i,"CBSA_Title"], '</a></p>') )
+#}
+lines <- vector(mode="character")
 lines <- c(lines, '<select id="freight-profiles-select" style="float:left;clear:left;">')
 
 for(j in 1:nrow(metros)){
-  lines <- c(lines, paste0('<option value="', metros[j,"CBSA_Code"], '">', metros[j,"CBSA_Title"], '</option>'))
+  lines <- c(lines, paste0('<option value="', metros[j,"CBSA_Code"], '_', metros[j,"short"], '">', metros[j,"CBSA_Title"], '</option>'))
 }
 
 lines <- c(lines,"</select>")
